@@ -1,0 +1,26 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap");
+
+* {
+  font-family: "Roboto", sans-serif !important;
+}
+.theme-button-color {
+  background-color: #2db960 !important;
+  border: 0px solid !important;
+  text-transform: uppercase;
+  font-weight: 400;
+}
+
+.landingPageBanner h3 {
+  color: #797575 !important;
+}
+.landingPageBanner h1 {
+  color: #474646 !important;
+}
+.landingPageBanner h1 span {
+  color: #2db960 !important;
+  font-weight: bolder;
+}
+.landingPageBanner p {
+  font-size: 18px;
+  color: #797575 !important;
+}
