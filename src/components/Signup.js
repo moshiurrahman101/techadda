@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Alert, Button, Col, Container, Form, Image, Row } from 'react-bootstrap';
+import { Alert, Button, Col, Container, Form, Image, Row, Spinner } from 'react-bootstrap';
+import Header from './Header';
 import { Link, useNavigate } from 'react-router-dom';
 import SignupBanner from '../assets/images/signup-page.png';
 import firebaseConfig from '../firebaseconfig';
@@ -12,6 +13,7 @@ function Signup() {
   const [password, setPassword] = useState('');
   const [cpassword, setCpassword] = useState('');
   const [agrrement, setAgrrement] = useState(false);
+  const [buttonLoader, setButtonLoader] = useState(false);
   const [error, setError] = useState({type:"", message:{position:""}});
 
 
@@ -33,6 +35,7 @@ function Signup() {
 
   const onClickHandler = (e) => {
     e.preventDefault();
+    setButtonLoader(true);
 
     // Validation part
     if(fname === ''){
@@ -72,7 +75,7 @@ function Signup() {
         setCpassword('');
         setAgrrement(false);
         setError({type:"", message:{position:""}});
-        navigate(`/signup-verification/${email}`);
+        navigate(`/signup-verification/`, {state: `${email}`});
       })
       .catch((err) => {
         const errorCode = err.code;
@@ -83,11 +86,16 @@ function Signup() {
         }
       })
     }
+
+    setTimeout(()=>{
+      setButtonLoader(false);
+    },3000);
     
   }
 
   return (
       <Container>
+        <Header/>
           <Row className='align-items-center mt-5'>
               <Col lg={6}>
                   <Image src={SignupBanner} className='mt-5 img-fluid'/>
@@ -171,7 +179,12 @@ function Signup() {
                   type="submit"
                   onClick={onClickHandler}
                   >
-                    SIGN UP
+                    SIGN UP&nbsp; 
+                    {
+                      buttonLoader ? 
+                      <Spinner animation="border" variant="light" size="sm"/>
+                      : ""
+                    }
                   </Button>
                   <h6 className='mt-3'>Have an account? <Link to="/login">Login</Link></h6>
                 </Form>     

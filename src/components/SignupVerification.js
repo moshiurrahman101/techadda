@@ -1,13 +1,17 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
+import Header from './Header';
 import { Card, Col, Container, Row } from 'react-bootstrap';
 import {faCheckCircle} from '@fortawesome/free-solid-svg-icons';
-import { useParams } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+
 
 const SignupVerification = () => {
-    const {email} = useParams();
+    const {state} = useLocation();
+    console.log(state);
   return (
       <Container>
+          <Header />
           <Row>
               <Col lg={12} className='d-flex justify-content-center mt-5'>
                 <Card style={{ width: '18rem' }}>
@@ -17,8 +21,12 @@ const SignupVerification = () => {
                         <FontAwesomeIcon icon={faCheckCircle} size='5x' color='green'/>
                         </div>
                         <Card.Text className='text-center'>
-                            We already send a verification link on your email <b>{email}</b> Please Check and verify your email address! 
+                            We already send a verification link on your email <b>{state}</b> Please Check and verify your email address! 
                         </Card.Text>
+                        <Card.Text className='text-center'>
+                        <Link className=' btn btn-dark text-center' to='/login'>Login</Link>
+                        </Card.Text>
+                            
                     </Card.Body>
                 </Card>
               </Col>
