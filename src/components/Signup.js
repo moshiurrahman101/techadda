@@ -4,7 +4,7 @@ import Header from './Header';
 import { Link, useNavigate } from 'react-router-dom';
 import SignupBanner from '../assets/images/signup-page.png';
 import firebaseConfig from '../firebaseconfig';
-import {getAuth, createUserWithEmailAndPassword, sendEmailVerification} from "firebase/auth"
+import {getAuth, createUserWithEmailAndPassword, sendEmailVerification, updateProfile} from "firebase/auth"
 
 function Signup() {
   const navigate = useNavigate();
@@ -66,16 +66,22 @@ function Signup() {
       createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        sendEmailVerification(user).then(()=>{
-          console.log("Email send successfuly!")
+        updateProfile(auth.currentUser, {
+          displayName: `${fname}`,
+        }).then(()=>{
+          // profile updated
+          sendEmailVerification(user).then(()=>{
+            setFname('');
+            setEmail('');
+            setPassword('');
+            setCpassword('');
+            setAgrrement(false);
+            setError({type:"", message:{position:""}});
+            navigate(`/signup-verification/`, {state: `${email}`});
+          });
+        }).catch((err)=>{
+          console.log(err.code);
         });
-        setFname('');
-        setEmail('');
-        setPassword('');
-        setCpassword('');
-        setAgrrement(false);
-        setError({type:"", message:{position:""}});
-        navigate(`/signup-verification/`, {state: `${email}`});
       })
       .catch((err) => {
         const errorCode = err.code;

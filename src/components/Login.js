@@ -31,6 +31,7 @@ function Login() {
     setPassword(e.target.value);
   }
   
+  // Login functinality...
   const onClickLoginHandler = (e) => {
     e.preventDefault();
     setButtonLoader(true);
@@ -75,7 +76,11 @@ function Login() {
     },3000);
   }
   
-  
+// Forget password Hander
+const onClickForgetPasswordHandler = (e) =>{
+  e.preventDefault();
+  navigate('/reset-password/');
+}
 
   return (
       <Container>
@@ -112,18 +117,29 @@ function Login() {
                     : "" 
                   }
                   </Form.Group>
-                  <Button 
-                  className='theme-button-color' 
-                  type="submit"
-                  onClick={onClickLoginHandler}
-                  >
-                    LOGIN&nbsp; 
-                    {
-                      buttonLoader ? 
-                      <Spinner animation="border" variant="light" size="sm"/>
-                      : ""
-                    }
-                  </Button>
+                  <div className='d-flex justify-content-between'>
+                    <Button 
+                    className='theme-button-color' 
+                    type="submit"
+                    onClick={onClickLoginHandler}
+                    >
+                      LOGIN&nbsp; 
+                      {
+                        buttonLoader ? 
+                        <Spinner animation="border" variant="light" size="sm"/>
+                        : ""
+                      }
+                    </Button>
+                    
+                    <Button 
+                    variant='secondary'
+                    size='sm'
+                    type="submit"
+                    onClick={onClickForgetPasswordHandler}
+                    >
+                      Forgot password? 
+                    </Button>
+                  </div>
                   <h6 className='mt-3'>Are You new? <Link to="/signup">Create an account</Link></h6>
                 </Form>     
               </Col>
