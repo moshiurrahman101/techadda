@@ -32,7 +32,7 @@ function DashBoardNav() {
   return (
     <Navbar  expand="lg">
       <Navbar.Brand href="#home">
-        <Link to="/">
+        <Link to="/dashboard/">
           <Image src={logo} />
         </Link>
       </Navbar.Brand>
@@ -40,7 +40,7 @@ function DashBoardNav() {
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className='align-items-center ms-auto'>
           <Nav.Item>
-            <Nav.Link href="/profile/">Profile</Nav.Link>
+            <Link to="/profile/" className='link'>Profile</Link>
           </Nav.Item>
           <Nav.Item>
             <Nav.Link>

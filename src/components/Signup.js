@@ -4,7 +4,8 @@ import Header from './Header';
 import { Link, useNavigate } from 'react-router-dom';
 import SignupBanner from '../assets/images/signup-page.png';
 import firebaseConfig from '../firebaseconfig';
-import {getAuth, createUserWithEmailAndPassword, sendEmailVerification, updateProfile} from "firebase/auth"
+import {getAuth, createUserWithEmailAndPassword, sendEmailVerification, updateProfile} from "firebase/auth";
+import { getDatabase, ref, push, set } from "firebase/database";
 
 function Signup() {
   const navigate = useNavigate();
@@ -62,26 +63,41 @@ function Signup() {
     else{
       
       const auth = getAuth();
-      
+      const db = getDatabase();
+
       createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        updateProfile(auth.currentUser, {
-          displayName: `${fname}`,
+        const userListRef = ref(db, 'users');
+        const newUserRef = push(userListRef);
+        set(newUserRef, {
+          uid: user.uid,
+          name: fname,
+          email: user.email,
+          profilePicUrl:'false',
+          friendList:[''],
         }).then(()=>{
-          // profile updated
-          sendEmailVerification(user).then(()=>{
-            setFname('');
-            setEmail('');
-            setPassword('');
-            setCpassword('');
-            setAgrrement(false);
-            setError({type:"", message:{position:""}});
-            navigate(`/signup-verification/`, {state: `${email}`});
+          updateProfile(auth.currentUser, {
+            displayName: `${fname}`,
+          }).then(()=>{
+            
+            // profile updated
+            sendEmailVerification(user).then(()=>{
+              setFname('');
+              setEmail('');
+              setPassword('');
+              setCpassword('');
+              setAgrrement(false);
+              setError({type:"", message:{position:""}});
+              navigate(`/signup-verification/`, {state: `${email}`});
+            });
+          }).catch((err)=>{
+            console.log(err.code);
           });
-        }).catch((err)=>{
-          console.log(err.code);
+        }).catch((err) => {
+          console.log(err.errorCode);
         });
+        
       })
       .catch((err) => {
         const errorCode = err.code;

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Col, Container, Form, FormGroup, Image, Row } from 'react-bootstrap';
+import { Button, Col, Container, Image, ListGroup, Row } from 'react-bootstrap';
 import {getAuth, onAuthStateChanged} from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import DashBoardNav from './DashBoardNav';
@@ -80,23 +80,42 @@ function Dashboard() {
         <DashBoardNav />
         
         <Row className='mt-5'>
-          <Col lg="2" className='bg-light'>
-            <div className="d-grid gap-2">
-              {
-                friends.map((friend, index) => (
-                  <div key={index} className="p-3 cursor-pointer bg-white d-block" onClick={() => onClickChatURLHandler({id: friend.id, name: friend.name, profilePic: friend.profilePic})}>
-                  <Image 
+          <Col lg="2" className='p-0'>
+          <ListGroup>
+            {
+              friends.map((friend, index) => (
+                <ListGroup.Item 
+                key={index}
+                onClick={() => onClickChatURLHandler({id: friend.id, name: friend.name, profilePic: friend.profilePic})}
+                className="cursor-pointer"
+                >
+                <Image 
                   className='user-profile-pic'
                   sizes='sm' 
                   src={friend.profilePic === 'false' ? userIcon: friend.profilePic }
                   />
-                  <b className='ms-2'>{friend.name}</b>
-                  </div>
+                  <span className='ms-2'>{friend.name}</span>
+                </ListGroup.Item>
+              ))
+            }
+          </ListGroup>
+            {/* <div className="d-grid gap-2">
+              {
+                friends.map((friend, index) => (
+                
+                  // <div key={index} className="p-3 cursor-pointer bg-white d-block" onClick={() => onClickChatURLHandler({id: friend.id, name: friend.name, profilePic: friend.profilePic})}>
+                  // <Image 
+                  // className='user-profile-pic'
+                  // sizes='sm' 
+                  // src={friend.profilePic === 'false' ? userIcon: friend.profilePic }
+                  // />
+                  // <b className='ms-2'>{friend.name}</b>
+                  // </div>
                 ))
               }
               
               
-            </div>
+            </div> */}
           </Col>
           <Col lg="10">
             {

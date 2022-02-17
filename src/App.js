@@ -6,6 +6,7 @@ import Dashboard from "./components/Dashboard";
 import SignupVerification from "./components/SignupVerification";
 import Resetpassword from "./components/Resetpassword";
 import ConfirmEmail from "./components/ConfirmEmail";
+import Profile from "./components/Profile";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/signup-verification/" element={<SignupVerification />}/>
         <Route path="/email-confirmation/" element={<ConfirmEmail />}/>
         <Route path="/reset-password/" element={<Resetpassword />}/>
+        <Route path="/profile/" element={<Profile />}/>
       </Routes>
     </>
     
