@@ -203,16 +203,16 @@
 }
 
 /* right sidebar */
-.usersList {
+.userListScroll {
   max-height: 300px !important;
   overflow: scroll;
   overflow-x: hidden;
 }
-.usersList::-webkit-scrollbar {
+.userListScroll::-webkit-scrollbar {
   width: 5px;
   background-color: #eef0ef;
   border-radius: 50px;
 }
-.usersList::-webkit-scrollbar-thumb {
+.userListScroll::-webkit-scrollbar-thumb {
   background-color: #2db960;
 }

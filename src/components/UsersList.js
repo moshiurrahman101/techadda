@@ -27,6 +27,8 @@ function UsersList(props) {
   return (
     <div className='usersList'>
         <h4 className='userList-title'>{props.title}</h4>
+        <div className='userListScroll'>
+
         {
             users.map((user, index) => (
                 <div className='users' key={index}>
@@ -44,6 +46,7 @@ function UsersList(props) {
                 </div>
             ))
         }
+        </div>
     </div>
   )
 }
