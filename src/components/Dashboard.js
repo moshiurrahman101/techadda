@@ -7,6 +7,7 @@ import userIcon from '../assets/images/placeholder.jpg';
 import bgChatBox from '../assets/images/chatbox.gif';
 import {getDatabase, ref, onValue, push, set, remove, } from 'firebase/database';
 import {IoMdRemoveCircleOutline} from 'react-icons/io';
+import {MdPhoto} from 'react-icons/md';
 import UsersList from './UsersList';
 
 
@@ -162,6 +163,14 @@ function Dashboard() {
   }
 
 
+  /// Input file uploading methods
+  const inputFile = useRef(null);
+  const sendImageFile = () => {
+    inputFile.current.click();
+    console.log("Done!");
+  }
+
+
 return (
       <Container>
         <DashBoardNav />
@@ -264,6 +273,13 @@ return (
 
                 </div>
                 <form className='chat-bottom'>
+                  <MdPhoto 
+                  fontSize={32} 
+                  style={{color:'#1ea153',cursor:'pointer', marginRight:'10px'}}
+                  onClick={sendImageFile}
+
+                  />
+                  <input type='file' id='file' ref={inputFile} style={{display: 'none'}}/>
                   <input 
                   className='form-control' 
                   type="text" 
