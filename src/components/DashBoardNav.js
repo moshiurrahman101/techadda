@@ -40,6 +40,9 @@ function DashBoardNav() {
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className='align-items-center ms-auto'>
           <Nav.Item>
+            <Link to="/create/" className='link'>Create a group</Link>
+          </Nav.Item>
+          <Nav.Item>
             <Link to="/profile/" className='link'>Profile</Link>
           </Nav.Item>
           <Nav.Item>

@@ -50,20 +50,19 @@
   justify-content: space-between;
   background-color: #ffffff;
   height: 70vh;
-  padding: 0px;
+  padding: 30px;
+  border: 1px solid #f5f5f5;
+  border-radius: 20px;
+  padding-bottom: 20px;
 }
 .chatbox-wrapper .chat-header {
-  background-color: #f5f5f5;
+  color: white;
 }
-.chat-content-box {
-  width: 100%;
-  height: auto;
-  background-color: #2db960;
-}
+
 .chatbox-wrapper .chat-header .friendInfo {
+  color: #474646;
   max-width: 300px;
-  padding: 20px;
-  margin: 0 auto;
+  padding: 10px;
 }
 
 .chatbox-wrapper .chat-bottom {
@@ -73,12 +72,68 @@
   width: 100%;
   height: 50px;
   background-color: #ffffff;
-  bottom: 0;
 }
 .chatbox-wrapper .chat-bottom input {
   width: 100%;
   padding-left: 20px;
   border: 1px solid #f5f5f5;
+}
+.middle {
+  width: 100%;
+  min-height: 400px;
+  overflow-y: scroll;
+  max-height: 600px;
+  margin: 10px 0px;
+}
+.middle::-webkit-scrollbar {
+  width: 5px;
+  background-color: #eef0ef;
+  border-radius: 50px;
+}
+.middle::-webkit-scrollbar-thumb {
+  background-color: #2db960;
+}
+.chat-content-box {
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.chat-content-box .message-wrapper {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+.chat-content-box .message-wrapper .profile-pic img {
+  max-width: 32px;
+}
+.chat-content-box .message-wrapper .action-button {
+  margin-left: 10px;
+  padding: 2px 6px;
+  color: #807e7e;
+}
+
+.chat-content-box .message-wrapper .action-button:hover {
+  background-color: #cacaca;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.chat-content-box .message-wrapper .message-content {
+  padding: 10px 15px;
+  background-color: #cfcfcf;
+  border-radius: 10px;
+}
+
+.message-content p {
+  margin-bottom: 0px;
+}
+.self {
+  justify-content: flex-end;
+  padding-right: 30px;
+}
+.self .message-content {
+  background-color: #1ea153 !important;
+  color: white;
 }
 
 /* profile page */
@@ -91,4 +146,73 @@
 }
 .infoBox p span {
   color: #474646;
+}
+
+/* Right sidebar */
+.usersList .userList-title {
+  font-size: 15px;
+  margin-bottom: 20px;
+}
+.users {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+.profileDetails {
+  display: flex;
+  align-items: center;
+}
+.users .image {
+  max-width: 32px;
+  max-height: 32px;
+}
+.users .name {
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 16px;
+  margin-left: 5px;
+}
+.users .button button {
+  font-size: 12px;
+  font-weight: normal;
+  border: 0px;
+  border-radius: 50px;
+  background-color: #2db960;
+  color: #ffffff;
+  padding: 3px 10px;
+}
+.users .button button:hover {
+  box-shadow: 2px 2px 7px #918f8f;
+}
+
+/* Friend box design */
+.friendsBox {
+  max-height: 400px !important;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+.friendsBox::-webkit-scrollbar {
+  width: 5px;
+  background-color: #eef0ef;
+  border-radius: 50px;
+}
+.friendsBox::-webkit-scrollbar-thumb {
+  background-color: #2db960;
+}
+
+/* right sidebar */
+.usersList {
+  max-height: 300px !important;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+.usersList::-webkit-scrollbar {
+  width: 5px;
+  background-color: #eef0ef;
+  border-radius: 50px;
+}
+.usersList::-webkit-scrollbar-thumb {
+  background-color: #2db960;
 }

@@ -85,7 +85,7 @@ const onClickForgetPasswordHandler = (e) =>{
   return (
       <Container>
         <Header/>
-        <ToastContainer />
+        <ToastContainer limit={1}/>
           <Row className='align-items-center mt-5'>
               <Col lg={6}>
                   <Image src={loginBanner} className='mt-5 img-fluid'/>
@@ -149,4 +149,3 @@ const onClickForgetPasswordHandler = (e) =>{
 }
 
 export default Login;
-

@@ -74,8 +74,10 @@ function Signup() {
           uid: user.uid,
           name: fname,
           email: user.email,
+          emailVerified: 'false',
           profilePicUrl:'false',
-          friendList:[''],
+          friendList:[{}],
+          friendRequest:[{}],
         }).then(()=>{
           updateProfile(auth.currentUser, {
             displayName: `${fname}`,
