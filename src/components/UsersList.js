@@ -5,7 +5,7 @@ import {getDatabase, ref, onValue} from 'firebase/database';
 
 function UsersList(props) {
     const [users, setUsers] = useState([]);
-
+    const currentUid = props.currentUserId;
     const inviteFriendsHandler = (id) =>{
         console.log(`Invite send to = ${id}`);
     }
@@ -30,7 +30,9 @@ function UsersList(props) {
         <div className='userListScroll'>
 
         {
+
             users.map((user, index) => (
+                user.uid != currentUid ?
                 <div className='users' key={index}>
                     <div className='profileDetails'>
                         <div className='image'>
@@ -44,6 +46,7 @@ function UsersList(props) {
                         <button onClick={() => inviteFriendsHandler(user.uid)}>ADD</button>
                     </div>
                 </div>
+                :""
             ))
         }
         </div>

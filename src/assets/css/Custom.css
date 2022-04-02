@@ -135,7 +135,10 @@
   background-color: #1ea153 !important;
   color: white;
 }
-
+.messageImageWrapper img {
+  border: 1px solid #cacaca;
+  border-radius: 10px;
+}
 /* profile page */
 .infoBox {
   margin-bottom: 13px;
@@ -189,9 +192,13 @@
 
 /* Friend box design */
 .friendsBox {
-  max-height: 400px !important;
+  max-height: 300px !important;
   overflow: scroll;
   overflow-x: hidden;
+}
+.friendsBox .active {
+  background-color: #2db960 !important;
+  border: 0px !important;
 }
 .friendsBox::-webkit-scrollbar {
   width: 5px;
@@ -199,7 +206,7 @@
   border-radius: 50px;
 }
 .friendsBox::-webkit-scrollbar-thumb {
-  background-color: #2db960;
+  background-color: #aaaaaa;
 }
 
 /* right sidebar */
@@ -207,6 +214,7 @@
   max-height: 300px !important;
   overflow: scroll;
   overflow-x: hidden;
+  padding-right: 10px;
 }
 .userListScroll::-webkit-scrollbar {
   width: 5px;
@@ -214,5 +222,40 @@
   border-radius: 50px;
 }
 .userListScroll::-webkit-scrollbar-thumb {
-  background-color: #2db960;
+  background-color: #aaaaaa;
+}
+
+/* Story page */
+.storyWrapper {
+  width: 60px;
+  height: 60px;
+  border-radius: 50px;
+  border: 3px solid #2db960;
+  padding: 1px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.storyWrapper img {
+  width: 100%;
+  overflow: hidden;
+}
+
+.addStory {
+  width: 60px;
+  height: 60px;
+  border-radius: 50px;
+  border: 3px solid #2db960;
+  padding: 1px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.textWrapper {
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

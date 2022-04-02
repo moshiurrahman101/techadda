@@ -6,9 +6,12 @@ import DashBoardNav from './DashBoardNav';
 import userIcon from '../assets/images/placeholder.jpg';
 import bgChatBox from '../assets/images/chatbox.gif';
 import {getDatabase, ref, onValue, push, set, remove, } from 'firebase/database';
+import { getStorage, ref as imgRef, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import {IoMdRemoveCircleOutline} from 'react-icons/io';
 import {MdPhoto} from 'react-icons/md';
 import UsersList from './UsersList';
+import RequestList from './RequestList';
+import Story from './Story';
 
 
 function Dashboard() {
@@ -45,18 +48,23 @@ function Dashboard() {
   
 
   /// Getting all message from DB
+  const mDataRef =  ref(db, '/messages');
+
   const getMessage = async () =>{
-    const mDataRef =  ref(db, '/messages');
     let messageArray = [];
     onValue(mDataRef,(snapshot)=>{
       snapshot.forEach((message) => {
+        
         let msg = {
           key: message.key,
+          type: message.val().type,
           message: message.val().message,
+          photoURL: message.val().photoURL,
           uid: message.val().uid,
           senderName: message.val().senderName,
         }
         messageArray.push(msg);
+        
       })
     })
     
@@ -65,8 +73,8 @@ function Dashboard() {
   }
 
   /// Getting users function from DB
+  const dataRef = ref(db, '/users');
   const getData = async () =>{
-    const dataRef = await ref(db, '/users');
     let userArray = [];
     onValue(dataRef, (snapshot) => {
       snapshot.forEach((user) => {
@@ -103,7 +111,7 @@ function Dashboard() {
 
   useEffect(()=>{
     scrollToBottom();    
-  },[allMessage]);
+  },[]);
 
 
 
@@ -127,7 +135,7 @@ function Dashboard() {
     if(activeFriends === userObject.id){
       setChatInfo({chat:false, chatid:'',userName:'', profilePicUrl: ''})
     }else{
-      setActiveFriends(userObject.uid);
+      setActiveFriends(userObject.id);
       setChatInfo({
         chat:true,
         chatid: userObject.uid,
@@ -151,6 +159,7 @@ function Dashboard() {
       const newPostRef = push(postListRef);
       set(newPostRef,{
         uid: userinfo.uid,
+        type: 'text',
         message: inputMessage,
         senderName: userinfo.displayName,
         parentKey: myParentKey,
@@ -167,14 +176,57 @@ function Dashboard() {
   const inputFile = useRef(null);
   const sendImageFile = () => {
     inputFile.current.click();
-    console.log("Done!");
   }
 
+
+  // File uploaded for chat
+  const chatFileOnChangeHandler = (e) => {
+    let randomNuberGenarate = Math.round(Math.random() * 100000);
+    let randomName = randomNuberGenarate.toString();
+    console.log(e.target.files[0]);
+    const fileName = randomName+e.target.files[0].name;
+    const file = e.target.files[0];
+    const storage = getStorage();
+    const storageRef = imgRef(storage, `images/${fileName}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+    uploadTask.on('state_changed', (snapshot)=>{
+      const progress = Math.round(
+         (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+         );
+      console.log('Upload is ' + progress + '% done');
+      switch (snapshot.state) {
+        case 'paused':
+          console.log('Upload is pausd!');
+          break;
+        case 'running':
+          console.log('Upload is running!');
+          break;
+      }
+      },
+      (error) => {
+        // Handle unsuccessful uploads
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL)=>{
+          const postListRef = ref(db, 'messages');
+          const newPostRef = push(postListRef);
+          set(newPostRef,{
+            uid: userinfo.uid,
+            type: 'photo',
+            photoURL: downloadURL,
+            senderName: userinfo.displayName,
+            parentKey: myParentKey,
+          });
+        });
+      }
+    ); // finish ontask
+  }
+// console.log(allMessage)
 
 return (
       <Container>
         <DashBoardNav />
-        
+        <Story />
         <Row className='mt-5'>
           <Col lg="2" className='p-0'>
           <h6>Friends</h6>
@@ -184,7 +236,7 @@ return (
                 <ListGroup.Item 
                 key={index}
                 onClick={() => onClickChatURLHandler({id: friend.uid, name: friend.name, profilePicUrl: friend.profilePicUrl})}
-                className={activeFriends === friend.uid ? "cursor-pointer active" : "cursor-pointer"}
+                className={activeFriends === friend.uid ?"cursor-pointer active" : "cursor-pointer"}
                 >
                 <Image 
                   className='user-profile-pic'
@@ -237,25 +289,32 @@ return (
                             />
                             
                           </div>
-                          <div className='message-content'>
-                          <p>{message.message}</p>
-                          </div>
                           
+                          {message.message !== undefined ? 
+                            <div className='message-content'>
+                            <p>{message.message}</p>
+                          </div>  
+                          :""
+                        }
+                          <div className='messageImageWrapper'>
+                          <img src={message.photoURL} style={{maxWidth:'200px'}}/>
+                          </div>
                         </div>
                         :
                         <div className='message-wrapper' key={index}>
                           <div className='profile-pic'>
                           <Image src={userIcon}/>
+                          {message.type}
                           </div>
-                          <div className='message-content'>
-                          <p>{message.message}</p>
-                          <span style={{
-                            fontSize:'10px',
-                            color:'#414141'
-                          }}>
-                            {message.senderName}
-                          </span>
-                          </div>
+                            <div className='message-content'>
+                            <p>{message.message}</p>
+                              <span style={{
+                                fontSize:'10px',
+                                color:'#414141'
+                                }}>
+                                {message.senderName}
+                              </span>
+                            </div>
 
                           <div className='action-button'>
                             <IoMdRemoveCircleOutline 
@@ -266,9 +325,7 @@ return (
                     ))
                     
                   }
-                  <div ref={messagesEndRef} />
-
-                  </div>
+                  <div ref={messagesEndRef} /></div>
                   }
 
                 </div>
@@ -279,7 +336,13 @@ return (
                   onClick={sendImageFile}
 
                   />
-                  <input type='file' id='file' ref={inputFile} style={{display: 'none'}}/>
+                  <input 
+                  type='file'
+                  id='file'
+                  ref={inputFile}
+                  style={{display: 'none'}}
+                  onChange={chatFileOnChangeHandler}
+                  />
                   <input 
                   className='form-control' 
                   type="text" 
@@ -304,7 +367,8 @@ return (
           </Col>
 
           <Col lg={2}>
-            <UsersList title="Might be your friends" />
+            <UsersList title="Might be your friends" currentUserId={userinfo.uid}/>
+            <RequestList title="Friend request"/>
           </Col>
         </Row>
       </Container>
